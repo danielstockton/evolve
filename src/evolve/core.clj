@@ -18,7 +18,7 @@
 (defn evolve
   [source fitness]
   (first 
-    (filter #(< (fitness %) (fitness source)) 
+    (filter #(<= (fitness %) (fitness source)) 
       (iterate mutate source))))
 
 (defn start
