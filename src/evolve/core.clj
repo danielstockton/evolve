@@ -23,7 +23,7 @@
 
 (defn start
   [generations source target]
-  (nth (iterate #(evolve % (fitness-fn target)) source) generations))
+  (nth (iterate #(doto (str ((fitness-fn target) %) " " (evolve % (fitness-fn target))) println) source) generations))
 
 (defn -main [source target]
   (println (start 50 source target)))
