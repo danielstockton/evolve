@@ -2,5 +2,5 @@
   (:use [evolve.core])
   (:use [clojure.test]))
 
-(deftest replace-me ;; FIXME: write
-  (is false "No tests have been written."))
+(deftest fitness
+  (is ((fitness-fn "jimmy") "james") 164))
