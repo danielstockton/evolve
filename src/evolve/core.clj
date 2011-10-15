@@ -17,13 +17,16 @@
 
 (defn evolve
   [source fitness]
-  (first 
-    (filter #(or (<= (fitness %) (fitness source)) (= (fitness source) 0))  
-      (repeatedly #(mutate source)))))
+  (if 
+    (= (fitness source) 0) 
+    (str source) 
+    (first 
+      (filter #(<= (fitness %) (fitness source)) 
+        (repeatedly #(mutate source))))))
 
 (defn start
   [generations source target]
-  (nth (iterate #(evolve % (fitness-fn target)) source) generations))
+  (nth (map-indexed (fn [idx itm] (doto (str idx " " ((fitness-fn target) itm) " " itm) println)) (iterate #(evolve % (fitness-fn target)) source)) generations))
 
 (defn -main [source target]
-  (println (start 50 source target)))
+  (start 50 source target))
