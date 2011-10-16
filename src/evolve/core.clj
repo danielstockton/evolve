@@ -8,17 +8,17 @@
   (char (nth (range 33 126) (rand (count (range 33 126))))))
 
 (defn randstring 
-  "(randstring l) returns a randomised string of length l"
+  "returns a randomised string of length l"
   [l]
   (apply str (take l (repeatedly randchar))))
 
 (defn population
-  "(population n l) generates population of n random strings of length l" 
+  "generates population of n random strings of length l" 
   [n l]
   (repeatedly n #(randstring l)))
 
 (defn fitness-fn
-  "returns a function that can gauge the fitness of a string against the supplied target" 
+  "returns a function that accepts a string and returns its fitness compared to the supplied target" 
   [target]
   (fn [source]  
     (apply + 
@@ -26,6 +26,13 @@
         (fn [x y] (* (- x y) (- x y))) 
         (contstr/codepoints source) 
         (contstr/codepoints target)))))
+
+(defn pop-fitness
+  "maps a fitness to each member of the population"
+  [population fitness]
+  (map 
+    #(fitness %)
+    population))
 
 (defn mutate 
   [source]
